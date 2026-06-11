@@ -14,3 +14,4 @@ So far, tenim:
 - readme.md: El que volem dir del treball
 
 Per el getAllEntriesProper.cpp es necesita el wikipedia_ca_all_nopic_2026-02.zim. No és la versió més actualitzada pero bueh.
+No l'afegeixo al git perqué son 3GB i peta.
