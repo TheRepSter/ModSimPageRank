@@ -1,0 +1,61 @@
+Badia del Vallès :: 120555
+Barberà del Vallès :: 128391
+Castellar del Vallès :: 235989
+Castellbisbal :: 236008
+Cerdanyola del Vallès :: 246376
+Gallifa :: 493961
+Matadepera :: 791130
+Montcada i Reixac :: 829756
+Palau-solità i Plegamans :: 906491
+Polinyà :: 963615
+Rellinars :: 1026143
+Ripollet :: 1040477
+Rubí :: 1054614
+Sabadell :: 1060525
+Sant Cugat del Vallès :: 1076057
+Sant Llorenç Savall :: 1078228
+Sant Quirze del Vallès :: 1080205
+Santa Perpètua de Mogoda :: 1083429
+Sentmenat :: 1100291
+Terrassa :: 1168429
+Ullastrell :: 1218294
+Vacarisses :: 1227536
+Viladecavalls :: 1243569
+Bigues i Riells :: 151307
+Caldes de Montbui :: 188559
+Campins :: 193149
+Canovelles :: 205612
+Cànoves i Samalús :: 320367
+Cardedeu :: 215785
+Fogars de Montclús :: 463930
+Figaró-Montmany :: 380006
+Gualba :: 531195
+Granollers :: 525838
+La Garriga :: 680037
+La Llagosta :: 680807
+La Roca del Vallès :: 683012
+Les Franqueses del Vallès :: 704649
+Lliçà d'Amunt :: 733959
+Lliçà de Vall :: 733962
+Llinars del Vallès :: 721636
+L'Ametlla del Vallès :: 672956
+Martorelles :: 783800
+Mollet del Vallès :: 824591
+Montmeló :: 831214
+Montornès del Vallès :: 831317
+Montseny :: 831781
+Parets del Vallès :: 917333
+Sant Antoni de Vilamajor :: 1075408
+Sant Celoni :: 1075763
+Sant Esteve de Palautordera :: 1076325
+Sant Feliu de Codines :: 1076542
+Sant Fost de Campsentelles :: 1076650
+Sant Pere de Vilamajor :: 1079877
+Santa Eulàlia de Ronçana :: 1081939
+Santa Maria de Martorelles :: 1082731
+Santa Maria de Palautordera :: 1082800
+Tagamanent :: 1151426
+Vallgorguina :: 1230472
+Vallromanes :: 1230561
+Vilanova del Vallès :: 1243904
+Vilalba Sasserra :: 1243695

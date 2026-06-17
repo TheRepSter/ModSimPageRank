@@ -6,9 +6,8 @@
 #include <iostream>
 #include <unordered_map>
 #include <vector>
-#include <zim/archive.h>
 
-using IndexMap = std::unordered_map<zim::entry_index_type, std::vector<zim::entry_index_type>>;
+using IndexMap = std::unordered_map<uint32_t, std::vector<uint32_t>>;
 
 // Reads a connections file with the format:
 //   from_idx :: to_idx1 to_idx2 ...
@@ -26,13 +25,13 @@ inline bool readConnectionsFile(const std::string &filename, IndexMap &connectio
         size_t sep = line.find(" :: ");
         if (sep == std::string::npos) continue;
 
-        zim::entry_index_type from_idx = static_cast<zim::entry_index_type>(std::stoi(line.substr(0, sep)));
+        uint32_t from_idx = static_cast<uint32_t>(std::stoi(line.substr(0, sep)));
         connections[from_idx]; // ensure node exists even with no outgoing links
 
         std::istringstream iss(line.substr(sep + 4));
         std::string word;
         while (iss >> word) {
-            zim::entry_index_type to_idx = static_cast<zim::entry_index_type>(std::stoi(word));
+            uint32_t to_idx = static_cast<uint32_t>(std::stoi(word));
             connections[from_idx].push_back(to_idx);
             connections.try_emplace(to_idx); // ensure destination node exists
         }

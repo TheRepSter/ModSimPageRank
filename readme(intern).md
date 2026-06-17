@@ -5,9 +5,10 @@ Coses que hem d'entregar:
 
 So far, tenim:
 - allPageRank: El codi pagerank i el codi per extreure les dades de la viquipedia d'un .zim
-- Lliurament 1, part 2: El codi del lliurament 1 de Algebra Lineal, que era sobre pagerank. Util per qué tenim gràfics.
+- miniPageRank.ipynb: El codi del lliurament 1 de Algebra Lineal, que era sobre pagerank. Util per qué tenim gràfics.
 - enunciat.md: L'enunciat que ens dona el profe
 - readme.md: El que volem dir del treball
+- nameToId: Fitxer que relaciona els noms amb les ids que hi ha a allPageRank
 
 Per el getAllEntriesProper.cpp es necesita el wikipedia_ca_all_nopic_2026-02.zim. No és la versió més actualitzada pero bueh.
 No l'afegeixo al git perqué son 3GB i peta.

@@ -7,10 +7,10 @@
 #include <utility>
 #include "readConnectionsFile.h"
 
-using RankMap = std::unordered_map<zim::entry_index_type, double>;
+using RankMap = std::unordered_map<uint32_t, double>;
 
 void saveRanking(const RankMap &ranking, const std::string &filename) {
-    std::vector<std::pair<zim::entry_index_type, double>> sorted(ranking.begin(), ranking.end());
+    std::vector<std::pair<uint32_t, double>> sorted(ranking.begin(), ranking.end());
     std::sort(sorted.begin(), sorted.end(), [](const auto &a, const auto &b) {
         return a.second > b.second;
     });
@@ -49,7 +49,7 @@ void pageRank(
         }
 
         for (const auto &[from, tos] : connections) {
-            if (tos.empty()) continue;
+            if (tos.empty()) continue; // Si no te sortides no s'ha de fer res.
             double rank_from = actualRanking.count(from) ? actualRanking.at(from) : 0.0;
             double contribution = dampingFactor * rank_from / static_cast<double>(tos.size());
             for (const auto &to : tos) {
@@ -57,7 +57,7 @@ void pageRank(
             }
         }
 
-        // L1 convergence check
+        // Mirant convergencia amb L1
         double delta = 0.0;
         for (const auto &[node, rank] : newRanking) {
             double old_rank = actualRanking.count(node) ? actualRanking.at(node) : 0.0;
@@ -66,25 +66,32 @@ void pageRank(
 
         actualRanking = std::move(newRanking);
 
-        if (i % 100 == 0 || delta < epsilon) {
-            std::cout << "Iteration " << i << "  delta=" << delta << std::endl;
-            saveRanking(actualRanking, filename);
-        }
+        std::cout << "Iteració " << i << "  delta=" << delta << std::endl;
+        saveRanking(actualRanking, filename);
 
         if (delta < epsilon) {
-            std::cout << "Converged at iteration " << i << " (delta=" << delta << " < epsilon=" << epsilon << ")" << std::endl;
+            std::cout << "Convergit a l'iteració " << i << " (delta=" << delta << " < epsilon=" << epsilon << ")" << std::endl;
             return;
         }
     }
 
-    std::cout << "Reached max iterations (" << maxIterations << ") without convergence." << std::endl;
+    std::cout << "Ha arribat al maxim d'iteracions (" << maxIterations << ") sense convergir." << std::endl;
 }
 
-int main() {
-    bool proper = 1;
+int main(int argc, char *argv[]) {
+    if (argc != 2) {
+        std::cerr << "Us: " << argv[0] << " <factor d'esmorteïment>" << std::endl;
+        return 1;
+    }
+
+    double dampingFactor = std::stod(argv[1]);
+    if (dampingFactor <= 0.0 || dampingFactor >= 1.0) {
+        std::cerr << "El factor d'esmorteïment ha d'estar en l'interval (0,1), exclusivament." << std::endl;
+        return 1;
+    }
 
     std::string connectionsFile = "entriesConnections.txt";
-    std::string rankingFile     = "entriesRanking.txt";
+    std::string rankingFile     = "resultatsPageRank/damping" + std::to_string(static_cast<int>(dampingFactor * 100)) + ".txt";
 
     IndexMap connections;
     if (!readConnectionsFile(connectionsFile, connections)) return 1;
@@ -98,7 +105,7 @@ int main() {
         while (std::getline(actualRankingFile, line)) {
             size_t sep = line.find(": ");
             if (sep == std::string::npos) continue;
-            zim::entry_index_type idx = static_cast<zim::entry_index_type>(std::stoi(line.substr(0, sep)));
+            uint32_t idx = static_cast<uint32_t>(std::stoi(line.substr(0, sep)));
             actualRanking[idx] = std::stod(line.substr(sep + 2));
         }
         actualRankingFile.close();
@@ -110,7 +117,6 @@ int main() {
         std::cout << "Ranking inicialitzat uniformement (1/N)." << std::endl;
     }
 
-    pageRank(connections, actualRanking, 0.85, 10000, 1e-11, rankingFile);
-    std::cout << "Fet!" << std::endl;
+    pageRank(connections, actualRanking, dampingFactor, 10000, 1e-8, rankingFile);
     return 0;
 }
