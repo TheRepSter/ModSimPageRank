@@ -66,10 +66,12 @@ void pageRank(
 
         actualRanking = std::move(newRanking);
 
-        std::cout << "Iteració " << i << "  delta=" << delta << std::endl;
-        saveRanking(actualRanking, filename);
+        std::cout << "Iteració " << i+1 << "  delta=" << delta << std::endl;
+        if (i % 10 == 9)
+            saveRanking(actualRanking, filename);
 
         if (delta < epsilon) {
+            saveRanking(actualRanking, filename);
             std::cout << "Convergit a l'iteració " << i << " (delta=" << delta << " < epsilon=" << epsilon << ")" << std::endl;
             return;
         }
