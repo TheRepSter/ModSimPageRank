@@ -1,4 +1,19 @@
+# Motivació
+
+Històricament, el Vallès ha tingut múltiples capitals, ara mateix sent Terrassa, Sabadell i Granollers, i sempre hi ha hagut el debat de quina és la ciutat més important del Vallès. Com es podria mesurar quina és? PageRank serveix precisament per això, dissenyat per veure quines són les pàgines web més importants. Si canviem pàgina web per ciutat, tindrem la resposta i finalment podrem tancar el debat històric.
+
+# Metodologia
+
+Hem fet dues implementacions: 
+1. PageRank amb una xarxa composta únicament amb els nodes de les ciutats a estudiar, les arestes sent els enllaços que transporten d'un node a un altre. És el (smth).ipynb
+2. PageRank amb tota la Viquipèdia. Es troba tot a allPageRank programat amb c++. Això no obstant, la majoria documentació i resultats es poden seguir al (smth).ipynb. Per executar certs programes és necessari un .zim de la Viquipèdia (wikipedia_ca_all_nopic) que es pot descarregar [aquí](https://download.kiwix.org/zim/wikipedia/). Està fet b autovectors), ja que són 700000 nodes, i una matriu 700 mil x 700 mil és inviable.
+
+# Transparència amb l'ús de la IA:  
+
+- Per la part de c no l'hem fet servir. Part del codi és reutilitzat d'un altre projecte personal d'un membre del grup entusiasta amb la Viquipèdia.
+
 Grup H. 
-Eduardo Pérez Motato (1709992)
-Félix Sáiz von Fraunberg (1620854)
-Benet Carbonell Fusté (1709685)
+
+Eduardo Pérez Motato, terrasenc (1709992)  
+Félix Sáiz von Fraunberg, sabadellenc (1620854)  
+Benet Carbonell Fusté, terrassenc (1709685)

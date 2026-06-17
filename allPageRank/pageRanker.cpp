@@ -81,13 +81,10 @@ void pageRank(
 }
 
 int main() {
-    std::string answer;
-    std::cout << "Usar mode proper? (s/n): ";
-    std::getline(std::cin, answer);
-    bool proper = (answer == "s" || answer == "S");
+    bool proper = 1;
 
-    std::string connectionsFile = proper ? "entriesFriendOfProper.txt" : "entriesFriendOf.txt";
-    std::string rankingFile     = proper ? "actualRankingProper.txt"   : "actualRanking.txt";
+    std::string connectionsFile = "entriesConnections.txt";
+    std::string rankingFile     = "entriesRanking.txt";
 
     IndexMap connections;
     if (!readConnectionsFile(connectionsFile, connections)) return 1;
@@ -105,15 +102,15 @@ int main() {
             actualRanking[idx] = std::stod(line.substr(sep + 2));
         }
         actualRankingFile.close();
-        std::cout << "Ranking loaded from file" << std::endl;
+        std::cout << "Ranking passat trobat, continuant d'ell." << std::endl;
     } else {
         for (const auto &[node, _] : connections) {
             actualRanking[node] = 1.0 / N;
         }
-        std::cout << "Ranking initialized uniformly (1/N)" << std::endl;
+        std::cout << "Ranking inicialitzat uniformement (1/N)." << std::endl;
     }
 
     pageRank(connections, actualRanking, 0.85, 10000, 1e-11, rankingFile);
-    std::cout << "Done." << std::endl;
+    std::cout << "Fet!" << std::endl;
     return 0;
 }
