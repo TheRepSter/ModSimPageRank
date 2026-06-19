@@ -6,11 +6,11 @@ Històricament, el Vallès ha tingut múltiples capitals, ara mateix sent Terras
 
 Hem fet dues implementacions: 
 1. PageRank amb una xarxa composta únicament amb els nodes de les ciutats a estudiar, les arestes sent els enllaços que transporten d'un node a un altre. És el miniPageRank.ipynb
-2. PageRank amb tota la Viquipèdia. Es troba tot a allPageRank programat amb c++. Això no obstant, la majoria documentació i resultats es poden seguir al miniPageRank.ipynb. Per executar certs programes és necessari un .zim de la Viquipèdia (wikipedia_ca_all_nopic) que es pot descarregar [aquí](https://download.kiwix.org/zim/wikipedia/) i libzim. Està fet amb iteracions en canvi d'autovectors, ja que són 700.000 nodes, i una matriu 700 mil x 700 mil és inviable.
+2. PageRank amb tota la Viquipèdia. Es troba tot a allPageRank programat amb c++. Això no obstant, la majoria documentació i resultats es poden seguir al miniPageRank.ipynb. Per executar certs programes és necessari un .zim de la Viquipèdia (wikipedia_ca_all_nopic) que es pot descarregar [aquí](https://download.kiwix.org/zim/wikipedia/) i libzim. Està fet amb iteracions en canvi d'autovectors, ja que són 700.000 nodes, i una matriu 700 mil x 700 mil és inviable. Hem aplicat l'[algoritme](https://en.wikipedia.org/wiki/PageRank#Iterative) en c++.
 
 # Transparència amb l'ús de la IA:  
 
-- Per la part de PageRank amb tota la Viquipèdia no hem fet servir. Part del codi és reutilitzat d'un altre projecte personal d'un membre del grup entusiasta amb la Viquipèdia.
+- Per la part de PageRank amb tota la Viquipèdia no hem fet servir la IA. Part del codi és reutilitzat d'un altre projecte personal d'un membre del grup entusiasta amb la Viquipèdia.
 
 Grup H. 
 
