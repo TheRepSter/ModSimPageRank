@@ -8,12 +8,19 @@
 #include <unordered_set>
 #include <vector>
 
+/*
+    Programa que llegeix un .zim i extreu les connexions que tenen els articles amb la resta.
+    Heredat del projecte personal. Ha sigut treballat durant uns dos anys, llavors està bastant optimitzat.
+    Guarda .html en cassos d'error / warnings al extreure un article. Porta temps on mai és error, només warning.
+*/
+
 inline int ishex(int x) {
     return (x >= '0' && x <= '9') ||
            (x >= 'a' && x <= 'f') ||
            (x >= 'A' && x <= 'F');
 }
 
+// Molta part inspirada de una pregunta d'StackOverflow per procesar URLs
 int decode(const char *s, char *dec) {
     char *o;
     const char *end = s + strlen(s);
@@ -52,7 +59,7 @@ std::string sanitize(std::string data) {
     return result;
 }
 
-// Eliminem <tag openMarker...>...</tag> de les dades.
+// Eliminar <tag openMarker...>...</tag> de les dades. Aquestes tags trenquen molt.
 void removeTagBlocks(std::string &data,
                      const std::string &tag,
                      const std::string &openMarker,
@@ -98,7 +105,7 @@ void removeTagBlocks(std::string &data,
     }
 }
 
-// retorna la posició del primer final del article (és a dir, referencies o bibliografia)
+// Retorna la posició del primer final del article (és a dir, referencies o bibliografia)
 size_t findCutoff(const std::string &data) {
     size_t cutoff = std::string::npos;
     auto consider = [&](size_t p) {
@@ -160,7 +167,7 @@ int main(int argc, char *argv[]) {
             if (mimetype == "text/html" || mimetype == "text/html; charset=iso-8859-1") {
                 std::string data = item.getData();
 
-                // 1. Només nececitem <body>
+                // 1. Només nececitem <body>...</body>
                 size_t body_start = data.find("<body");
                 if (body_start == std::string::npos) { data = ""; goto write_entry; }
                 data = data.substr(body_start);
@@ -170,55 +177,56 @@ int main(int argc, char *argv[]) {
                 }
 
                 // 2. Eliminar taules (infoboxes, navboxes, caixes de taxonomia, etc.).
+                // Aquestes son les tipiques que es veuen a la dreta i posa quickfacts
+                // de l'article, com neixement, etc.
                 removeTagBlocks(data, "table", "", handler.getPath());
 
                 // 3. Eliminar navboxes que queden.
+                // Aquestes son tricky, normalment son les mateixes només que en format antic.
                 removeTagBlocks(data, "div", "class=\"navbox",  handler.getPath());
                 removeTagBlocks(data, "div", "role=\"navigation\" class=\"navbox", handler.getPath());
 
                 // 4. Eliminar el final footer.
-                {
-                    size_t footer = data.find("This article is issued from");
-                    if (footer != std::string::npos) data = data.substr(0, footer);
-                }
+                // Important ja que a vegades també tenen link, sempre no vàlid.
+                size_t footer = data.find("This article is issued from");
+                if (footer != std::string::npos) data = data.substr(0, footer);
 
                 // 5. Eliminar fins Referencies / Bibliografia.
-                {
-                    size_t cutoff = findCutoff(data);
-                    if (cutoff != std::string::npos) data = data.substr(0, cutoff);
-                }
+                // Molts links no vàlids, també això fa que tot article amb bibliografia apunti a 
+                // https://ca.wikipedia.org/wiki/Control_d%27autoritats o similars.
+                size_t cutoff = findCutoff(data);
+                if (cutoff != std::string::npos) data = data.substr(0, cutoff);
 
                 // 6. Quedarse només amb el contingut dintre <p> i <li>.
-                {
-                    const std::pair<std::string, std::string> tags[] = {
-                        {"<p",  "</p>"},
-                        {"<li", "</li>"},
-                    };
-                    std::string collected;
-                    for (const auto &[open, close] : tags) {
-                        size_t search_from = 0;
-                        while (true) {
-                            size_t block_open = data.find(open, search_from);
-                            if (block_open == std::string::npos) break;
-                            char next = data[block_open + open.size()];
-                            if (next != '>' && next != ' ' && next != '\n' && next != '\t') {
-                                search_from = block_open + 1;
-                                continue;
-                            }
-                            size_t tag_end = data.find(">", block_open);
-                            if (tag_end == std::string::npos) break;
-                            size_t block_close = data.find(close, tag_end);
-                            if (block_close == std::string::npos) {
-                                search_from = tag_end + 1;
-                                continue;
-                            }
-                            collected += data.substr(tag_end + 1, block_close - tag_end - 1);
-                            collected += ' ';
-                            search_from = block_close + close.size();
+                // La resta de contingut no té links.
+                const std::pair<std::string, std::string> tags[] = {
+                    {"<p",  "</p>"},
+                    {"<li", "</li>"},
+                };
+                std::string collected;
+                for (const auto &[open, close] : tags) {
+                    size_t search_from = 0;
+                    while (true) {
+                        size_t block_open = data.find(open, search_from);
+                        if (block_open == std::string::npos) break;
+                        char next = data[block_open + open.size()];
+                        if (next != '>' && next != ' ' && next != '\n' && next != '\t') {
+                            search_from = block_open + 1;
+                            continue;
                         }
+                        size_t tag_end = data.find(">", block_open);
+                        if (tag_end == std::string::npos) break;
+                        size_t block_close = data.find(close, tag_end);
+                        if (block_close == std::string::npos) {
+                            search_from = tag_end + 1;
+                            continue;
+                        }
+                        collected += data.substr(tag_end + 1, block_close - tag_end - 1);
+                        collected += ' ';
+                        search_from = block_close + close.size();
                     }
-                    data = std::move(collected);
                 }
+                data = std::move(collected);
 
                 while (data.find("href=\"") != std::string::npos) {
                     size_t pos = data.find("href=\"");
@@ -255,7 +263,7 @@ int main(int argc, char *argv[]) {
                         data = data.substr(pos + size_href);
                         continue;
                     }
-                    // URLs que no porten enlloc
+                    // URLs que no porten enlloc, malformades, donen error.
                     if (href_lower.rfind("http://", 0) == 0
                         || href_lower.rfind("https://", 0) == 0
                         || href_lower.empty()
