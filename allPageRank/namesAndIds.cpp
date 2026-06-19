@@ -4,6 +4,11 @@
 #include <iostream>
 #include <string>
 
+
+/*
+    Programa que extreu del .zim de la Viquipedia tots els articles que volem per el nostre subgraf.
+*/
+
 // Llista de ciutats del Vallès.
 const std::string ciutats[] = {
     // Vallès Occidental (23 municipis)

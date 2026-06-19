@@ -7,6 +7,11 @@
 #include <utility>
 #include "readConnectionsFile.h"
 
+/*
+    Programa que fa el PageRank iteratiu en c++. És bastant ràpid per poder fer
+    el PageRank de la Viquipedia completa. Té com a input el factor de dampling.
+*/
+
 using RankMap = std::unordered_map<uint32_t, double>;
 
 void saveRanking(const RankMap &ranking, const std::string &filename) {
@@ -36,10 +41,13 @@ void pageRank(
         double dangling_sum = 0.0;
         for (const auto &[node, tos] : connections) {
             if (tos.empty()) {
+                // Recollim la suma dels nodes sense sortida per després distribuir-ho
+                // a la resta de nodes de la xarxa
                 dangling_sum += actualRanking.count(node) ? actualRanking.at(node) : 0.0;
             }
         }
 
+        // Repartim la massa dels nodes sense sortida 
         double base = (1.0 - dampingFactor) / N + dampingFactor * dangling_sum / N;
 
         RankMap newRanking;
@@ -49,7 +57,7 @@ void pageRank(
         }
 
         for (const auto &[from, tos] : connections) {
-            if (tos.empty()) continue; // Si no te sortides no s'ha de fer res.
+            if (tos.empty()) continue; // Si no te sortides no s'ha de fer res, ja està treballat.
             double rank_from = actualRanking.count(from) ? actualRanking.at(from) : 0.0;
             double contribution = dampingFactor * rank_from / static_cast<double>(tos.size());
             for (const auto &to : tos) {
