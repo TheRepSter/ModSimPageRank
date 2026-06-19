@@ -11,9 +11,9 @@ Hem fet dues implementacions:
 # Transparència amb l'ús de la IA:  
 
 - Per la part de PageRank amb tota la Viquipèdia no hem fet servir la IA. Part del codi és reutilitzat d'un altre projecte personal d'un membre del grup entusiasta amb la Viquipèdia.
-
+- Per la part de el notebook per el cas específic del vallès, hem fet ús de la IA generativa "kimi" de moonshot i "claude" de anthropic; a mode de respondre el tipus de dubtes que fa un parell d'anys hauriem resolt mitjançant eines com stack overflow/foros, buscant una explicació teòrica de què ens falla i no entenem, en cap cas ens ha escrit ninguna part de codi. Aixi facilitant-nos tant el entendre codi que hagin fet companys nostres com resolvent errors. Cal remarcar que l'hem fet servir en casos comptats, no ha estat una eina truncal per el desenvolupament del nostre projecte.
 Grup H. 
 
-Eduardo Pérez Motato, terrasenc (1709992)  
-Félix Sáiz von Fraunberg, sabadellenc (1620854)  
+Eduardo Pérez Motato, terrasenc (1709992)
+Félix Sáiz von Fraunberg, sabadellenc (1620854)
 Benet Carbonell Fusté, terrassenc (1709685)
